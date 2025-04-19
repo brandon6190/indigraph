@@ -14,13 +14,18 @@ import {
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
 export default function ScoreChart({ data }) {
+  const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+
   const chartData = {
-    labels: data.map(entry => entry.date),
+    labels: sortedData.map(entry => entry.date),
     datasets: [
       {
         label: 'Total Score',
-        data: data.map(entry => entry.score),
+        data: sortedData.map(entry => entry.score),
         borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgb(75, 192, 192)',
+        pointRadius: 5,
+        pointHoverRadius: 7,
         fill: false,
         tension: 0.2
       }
@@ -28,16 +33,43 @@ export default function ScoreChart({ data }) {
   };
 
   const options = {
+    responsive: true,
     scales: {
       y: {
         min: -1,
         max: 1,
+        beginAtZero: true,
         ticks: {
           stepSize: 0.1
+        },
+        grid: {
+            drawBorder: false,
+            color: (context) => {
+                if (context.tick.value === 0) {
+                  return '#000'; // black line for baseline
+                }
+                return 'rgba(0,0,0,0.1)'; // light gray for other grid lines
+              },
+              lineWidth: (context) => {
+                return context.tick.value === 0 ? 2 : 1; // thicker line for 0
+              }
+        }
+      },
+      x: {
+        grid: {
+            drawBorder: false
         }
       }
+    },
+    plugins: {
+        legend: { display: true },
+        tooltip: { enabled: true }
     }
   };
 
-  return <Line data={chartData} options={options} />;
+  return (
+    <div className="w-full h-64"> {/* Responsive wrapper for size */}
+      <Line data={chartData} options={options} />
+    </div>
+  );
 }
