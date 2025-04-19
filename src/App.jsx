@@ -19,8 +19,13 @@ export default function App() {
 
   const handleSubmit = () => {
     if (!selectedDate) return;
-    const total = Object.values(scores).reduce((acc, val) => acc + val, 0);
+
+    const values = Object.values(scores);
+
+    const total = values.length ? values.reduce((acc, val) => acc + val, 0) / values.length : 0;
+        
     setChartData(prev => [...prev, { date: selectedDate, score: total }]);
+    
     setScores({});
   };
 
