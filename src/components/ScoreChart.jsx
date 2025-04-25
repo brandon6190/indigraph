@@ -1,4 +1,3 @@
-// components/ScoreChart.jsx
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import {
@@ -14,7 +13,11 @@ import {
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
 export default function ScoreChart({ data }) {
-  const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+  let sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  for (data of sortedData) {
+    data.date = new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  }
 
   const chartData = {
     labels: sortedData.map(entry => entry.date),
