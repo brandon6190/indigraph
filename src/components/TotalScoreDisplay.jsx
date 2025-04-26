@@ -8,10 +8,10 @@ export default function TotalScoreDisplay({ scores, onSubmit }) {
   : (scoreValues.reduce((a, b) => a + b, 0) / scoreValues.length).toFixed(2);
   
   return (
-    <div className="mt-4">
-      <p className="text-lg font-semibold">Total Score: {total}</p>
+    <div className="total-score-display">
+      <p className="score">Total Score: {total}</p>
       <button 
-        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded" 
+        className="submit-score-btn" 
         onClick={onSubmit}>
         Submit Score
       </button>

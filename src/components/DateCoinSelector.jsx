@@ -2,22 +2,20 @@ import React from 'react';
 
 export default function DateCoinSelector({ selectedDate, setSelectedDate, coin, setCoin }) {
   return (
-    <div className="space-y-2">
-      <div>
-        <label className="block">Select Date</label>
+    <div className="date-coin-selector">
+      <div className="date-selector">
+        <label>Select Date</label>
         <input 
           type="date" 
           value={selectedDate} 
-          onChange={e => setSelectedDate(e.target.value)} 
-          className="border p-2 w-full" 
+          onChange={e => setSelectedDate(e.target.value)}  
         />
       </div>
-      <div>
-        <label className="block">Select Coin</label>
+      <div className="coin-selector">
+        <label>Select Coin</label>
         <select 
           value={coin} 
-          onChange={e => setCoin(e.target.value)} 
-          className="border p-2 w-full">
+          onChange={e => setCoin(e.target.value)}>
           <option value="BTC">BTC</option>
           <option value="ETH">ETH</option>
           <option value="SOL">SOL</option>

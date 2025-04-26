@@ -1,17 +1,18 @@
-// App.jsx
 import React, { useState } from 'react';
 import IndicatorControls from './components/IndicatorControls';
 import TotalScoreDisplay from './components/TotalScoreDisplay';
-import ScoreChart from './components/ScoreChart';
 import DateCoinSelector from './components/DateCoinSelector';
+import ScoreChart from './components/ScoreChart';
 
 const INDICATORS = ['Aroon', 'DMI', 'MACD', 'Parabolic SAR', 'RSI', 'SMI Ergodic', 'Supertrend'];
 
 export default function App() {
   const [scores, setScores] = useState({});
+  console.log({scores});
   const [selectedDate, setSelectedDate] = useState('');
   const [coin, setCoin] = useState('BTC');
   const [chartData, setChartData] = useState([]);
+  console.log({chartData});
 
   const handleScoreChange = (indicator, value) => {
     setScores(prev => ({ ...prev, [indicator]: value }));
@@ -30,8 +31,8 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row p-4">
-      <div className="w-full md:w-1/3 space-y-4">
+    <div className="app">
+      <div className="controls">
         <DateCoinSelector 
           selectedDate={selectedDate} 
           setSelectedDate={setSelectedDate} 
@@ -45,7 +46,7 @@ export default function App() {
         />
         <TotalScoreDisplay scores={scores} onSubmit={handleSubmit} />
       </div>
-      <div className="w-full md:w-2/3">
+      <div className="score-chart">
         <ScoreChart data={chartData} />
       </div>
     </div>

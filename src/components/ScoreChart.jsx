@@ -71,7 +71,7 @@ export default function ScoreChart({ data }) {
   };
 
   return (
-    <div className="w-full h-64"> {/* Responsive wrapper for size */}
+    <div className="chart"> {/* Responsive wrapper for size */}
       <Line data={chartData} options={options} />
     </div>
   );
