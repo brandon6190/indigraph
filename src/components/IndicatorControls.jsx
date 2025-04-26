@@ -8,12 +8,12 @@ export default function IndicatorControls({ indicators, scores, onScoreChange })
           <span>{ind}</span>
           <div className="indicator-btns">
             <button 
-              className="indicator-up-btn" 
+              className={`indicator-up-btn ${scores[ind] === 1 ? 'selected' : ''}`}
               onClick={() => onScoreChange(ind, 1)}>
               Up
             </button>
             <button 
-              className="indicator-down-btn" 
+              className={`indicator-down-btn ${scores[ind] === -1 ? 'selected' : ''}`} 
               onClick={() => onScoreChange(ind, -1)}>
               Down
             </button>
