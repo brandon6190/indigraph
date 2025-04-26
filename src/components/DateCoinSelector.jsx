@@ -1,4 +1,3 @@
-// components/DateCoinSelector.jsx
 import React from 'react';
 
 export default function DateCoinSelector({ selectedDate, setSelectedDate, coin, setCoin }) {
@@ -22,7 +21,7 @@ export default function DateCoinSelector({ selectedDate, setSelectedDate, coin, 
           <option value="BTC">BTC</option>
           <option value="ETH">ETH</option>
           <option value="SOL">SOL</option>
-          <option value="SOL">XRP</option>
+          <option value="XRP">XRP</option>
         </select>
       </div>
     </div>
