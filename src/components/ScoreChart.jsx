@@ -37,6 +37,7 @@ export default function ScoreChart({ data }) {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       y: {
         min: -1,
