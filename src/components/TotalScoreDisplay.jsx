@@ -1,4 +1,3 @@
-// components/TotalScoreDisplay.jsx
 import React from 'react';
 
 export default function TotalScoreDisplay({ scores, onSubmit }) {

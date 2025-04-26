@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './App.css';
+
 import IndicatorControls from './components/IndicatorControls';
 import TotalScoreDisplay from './components/TotalScoreDisplay';
 import DateCoinSelector from './components/DateCoinSelector';
@@ -8,11 +10,11 @@ const INDICATORS = ['Aroon', 'DMI', 'MACD', 'Parabolic SAR', 'RSI', 'SMI Ergodic
 
 export default function App() {
   const [scores, setScores] = useState({});
-  console.log({scores});
+  console.log('scores: ', scores);
   const [selectedDate, setSelectedDate] = useState('');
   const [coin, setCoin] = useState('BTC');
   const [chartData, setChartData] = useState([]);
-  console.log({chartData});
+  console.log('chartData: ', chartData);
 
   const handleScoreChange = (indicator, value) => {
     setScores(prev => ({ ...prev, [indicator]: value }));
