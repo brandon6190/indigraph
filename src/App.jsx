@@ -20,12 +20,30 @@ export default function App() {
 
   const handleSubmit = () => {
     if (!selectedDate) return;
-
+  
     const values = Object.values(scores);
 
     const total = values.length ? (values.reduce((acc, val) => acc + val, 0) / values.length).toFixed(2) : 0;
-        
-    setChartData(prev => [...prev, { date: selectedDate, score: total }]);
+
+    setChartData(prev => {
+      // checking if a date already exists in the chartData state
+      const existingDate = prev.findIndex(data => {
+        //changing formats from selectedDate to match new date format
+        let parts = selectedDate.split('-');
+        let selectedDateNewFormat;
+        if (parts.length > 1) selectedDateNewFormat = `${parts[1]}/${parts[2]}/${parts[0]}`;
+
+        return data.date === selectedDateNewFormat;
+      });
+
+      if (existingDate > -1) {
+        const updatedData = [...prev];
+        updatedData[existingDate] = {...updatedData[existingDate], score: total};
+        return updatedData;
+      } else {
+        return [...prev, { date: selectedDate, score: total }];
+      }
+    });
     
     setScores({});
   };
