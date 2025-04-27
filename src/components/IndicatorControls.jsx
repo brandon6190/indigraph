@@ -5,7 +5,7 @@ export default function IndicatorControls({ indicators, scores, onScoreChange })
     <div className="indicator-list">
       {indicators.map(ind => (
         <div key={ind} className="indicator">
-          <span>{ind}</span>
+          <span className="indicator-name">{ind}</span>
           <div className="indicator-btns">
             <button 
               className={`indicator-up-btn ${scores[ind] === 1 ? 'selected' : ''}`}

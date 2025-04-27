@@ -15,8 +15,12 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip,
 export default function ScoreChart({ data }) {
   let sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  for (data of sortedData) {
-    data.date = new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  for (let data of sortedData) {
+    //changing format from year-month-day to month/day/year
+    let parts = data.date.split('-');
+
+    // checking if parts has more strings to avoid adding double 'undefined'
+    if (parts.length > 1) data.date = `${parts[1]}/${parts[2]}/${parts[0]}`;
   }
 
   const chartData = {

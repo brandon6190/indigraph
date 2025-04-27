@@ -10,11 +10,9 @@ const INDICATORS = ['Aroon', 'DMI', 'MACD', 'Parabolic SAR', 'RSI', 'SMI Ergodic
 
 export default function App() {
   const [scores, setScores] = useState({});
-  console.log('scores: ', scores);
   const [selectedDate, setSelectedDate] = useState('');
   const [coin, setCoin] = useState('BTC');
   const [chartData, setChartData] = useState([]);
-  console.log('chartData: ', chartData);
 
   const handleScoreChange = (indicator, value) => {
     setScores(prev => ({ ...prev, [indicator]: value }));
@@ -25,7 +23,7 @@ export default function App() {
 
     const values = Object.values(scores);
 
-    const total = values.length ? values.reduce((acc, val) => acc + val, 0) / values.length : 0;
+    const total = values.length ? (values.reduce((acc, val) => acc + val, 0) / values.length).toFixed(2) : 0;
         
     setChartData(prev => [...prev, { date: selectedDate, score: total }]);
     
