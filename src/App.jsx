@@ -35,10 +35,10 @@ export default function App() {
 
       if (existingDate > -1) {
         const updatedData = [...prev];
-        updatedData[existingDate] = {...updatedData[existingDate], score: total};
+        updatedData[existingDate] = {...updatedData[existingDate], score: total, indicators: scores };
         return updatedData;
       } else {
-        return [...prev, { date: selectedDate, score: total }];
+        return [...prev, { date: selectedDate, score: total, indicators: scores, coin: coin }];
       }
     });
     
