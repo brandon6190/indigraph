@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import IndicatorControls from './components/IndicatorControls';
@@ -25,26 +25,40 @@ export default function App() {
     const values = Object.values(scores);
 
     const total = values.length ? (values.reduce((acc, val) => acc + val, 0) / values.length).toFixed(2) : 0;
-
+    //changing formats from selectedDate to match new date format from chartData state
+    const parts = selectedDate.split('-');
+    const formattedDate = parts.length > 1 ? `${parts[1]}/${parts[2]}/${parts[0]}` : selectedDate;
+    
     setChartData(prev => {
-      //changing formats from selectedDate to match new date format
-      const parts = selectedDate.split('-');
-      const selectedDateNewFormat = parts.length > 1 ? `${parts[1]}/${parts[2]}/${parts[0]}` : selectedDate;
-
       // checking if a date already exists in the chartData state
-      const existingDate = prev.findIndex(data => data.date === selectedDateNewFormat);
+      const existingDate = prev.findIndex(data => data.date === formattedDate);
+      const updatedData = [...prev];
+      const newEntry = { date: formattedDate, score: total, indicators: scores, coin: coin };
 
       if (existingDate > -1) {
-        const updatedData = [...prev];
-        updatedData[existingDate] = {...updatedData[existingDate], score: total, indicators: scores };
-        return updatedData;
+        updatedData[existingDate] = newEntry;
       } else {
-        return [...prev, { date: selectedDate, score: total, indicators: scores, coin: coin }];
+        updatedData.push(newEntry);
       }
+
+      const stored = JSON.parse(localStorage.getItem('chartData')) || {};
+      stored[coin] = updatedData;
+      localStorage.setItem('chartData', JSON.stringify(stored));
+
+      return updatedData;
     });
     
     setScores({});
   };
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem('chartData')) || {};
+    if (stored[coin]) {
+      setChartData(stored[coin]);
+    } else {
+      setChartData([]);
+    }
+  }, [coin]);
 
   return (
     <div className="app">
