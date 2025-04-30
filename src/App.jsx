@@ -3,7 +3,8 @@ import './App.css';
 
 import IndicatorControls from './components/IndicatorControls';
 import TotalScoreDisplay from './components/TotalScoreDisplay';
-import DateCoinSelector from './components/DateCoinSelector';
+import DateSelector from './components/DateSelector';
+import CoinSelector from './components/CoinSelector';
 import ScoreChart from './components/ScoreChart';
 
 const INDICATORS = ['Aroon', 'DMI', 'MACD', 'Parabolic SAR', 'RSI', 'SMI Ergodic', 'Supertrend'];
@@ -48,17 +49,16 @@ export default function App() {
   return (
     <div className="app">
       <div className="controls">
-        <DateCoinSelector 
-          selectedDate={selectedDate} 
-          setSelectedDate={setSelectedDate} 
-          coin={coin} 
-          setCoin={setCoin} 
-        />
+        <DateSelector 
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate} />
+        <CoinSelector 
+        coin={coin}
+        setCoin={setCoin} />
         <IndicatorControls 
           indicators={INDICATORS} 
           scores={scores} 
-          onScoreChange={handleScoreChange} 
-        />
+          onScoreChange={handleScoreChange} />
         <TotalScoreDisplay scores={scores} onSubmit={handleSubmit} />
       </div>
       <div className="score-chart">
