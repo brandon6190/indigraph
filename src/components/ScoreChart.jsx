@@ -69,6 +69,11 @@ export default function ScoreChart({ data }) {
       x: {
         grid: {
             drawBorder: false
+        },
+        ticks: {
+          callback: function(val, index, ticks) {
+            return index % 2 === 0 ? this.getLabelForValue(val) : '';
+          }
         }
       }
     },
