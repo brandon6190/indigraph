@@ -44,11 +44,14 @@ export default function ScoreChart({ data }) {
     maintainAspectRatio: false,
     scales: {
       y: {
-        min: -1,
-        max: 1,
+        max: 1.10,
+        min: -1.10,
         beginAtZero: true,
         ticks: {
-          stepSize: 0.1
+          callback: function(value, index, ticks) {
+            return (index === 0 || index === ticks.length - 1) ? null : value;
+          },
+          stepSize: 0.10,
         },
         grid: {
             drawBorder: false,
@@ -70,8 +73,8 @@ export default function ScoreChart({ data }) {
       }
     },
     plugins: {
-        legend: { display: true },
-        tooltip: { enabled: true }
+        legend: { display: false },
+        tooltip: { enabled: false }
     }
   };
 
