@@ -6,6 +6,7 @@ import TotalScoreDisplay from './components/TotalScoreDisplay';
 import DateSelector from './components/DateSelector';
 import CoinSelector from './components/CoinSelector';
 import ScoreChart from './components/ScoreChart';
+import ScoreChartTitle from './components/ScoreChartTitle';
 
 const INDICATORS = ['Aroon', 'DMI', 'MACD', 'Parabolic SAR', 'RSI', 'SMI Ergodic', 'Supertrend'];
 
@@ -14,6 +15,11 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState('');
   const [coin, setCoin] = useState('BTC');
   const [chartData, setChartData] = useState([]);
+
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const now = new Date();
+    return `${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
+  });
 
   const handleScoreChange = (indicator, value) => {
     setScores(prev => ({ ...prev, [indicator]: value }));
@@ -25,27 +31,30 @@ export default function App() {
     const values = Object.values(scores);
 
     const total = values.length ? (values.reduce((acc, val) => acc + val, 0) / values.length).toFixed(2) : 0;
-    //changing formats from selectedDate to match new date format from chartData state
+
     const parts = selectedDate.split('-');
     const formattedDate = parts.length > 1 ? `${parts[1]}/${parts[2]}/${parts[0]}` : selectedDate;
+    const monthKey = `${parts[1]}-${parts[0]}`;
     
-    setChartData(prev => {
-      // checking if a date already exists in the chartData state
-      const existingDate = prev.findIndex(data => data.date === formattedDate);
-      const updatedData = [...prev];
+    setChartData(() => {
+      const stored = JSON.parse(localStorage.getItem('chartData')) || {};
+      const coinData = stored[coin] || {};
+      const monthData = coinData[monthKey] || [];
+
+      const existingDateIndex = monthData.findIndex(data => data.date === formattedDate);
       const newEntry = { date: formattedDate, score: total, indicators: scores, coin: coin };
 
-      if (existingDate > -1) {
-        updatedData[existingDate] = newEntry;
+      if (existingDateIndex > -1) {
+        monthData[existingDateIndex] = newEntry;
       } else {
-        updatedData.push(newEntry);
+        monthData.push(newEntry);
       }
 
-      const stored = JSON.parse(localStorage.getItem('chartData')) || {};
-      stored[coin] = updatedData;
+      coinData[monthKey] = monthData;
+      stored[coin] = coinData;
       localStorage.setItem('chartData', JSON.stringify(stored));
 
-      return updatedData;
+      return monthData;
     });
     
     setScores({});
@@ -53,19 +62,18 @@ export default function App() {
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('chartData')) || {};
-    if (stored[coin]) {
-      setChartData(stored[coin]);
-    } else {
-      setChartData([]);
-    }
-  }, [coin]);
+    const coinData = stored[coin] || {};
+    setChartData(coinData[currentMonth] || []);
+  }, [coin, currentMonth]);
 
   return (
     <div className="app">
       <div className="controls">
         <DateSelector 
         selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate} />
+        setSelectedDate={setSelectedDate}
+        currentMonth={currentMonth}
+        setCurrentMonth={setCurrentMonth} />
         <CoinSelector 
         coin={coin}
         setCoin={setCoin} />
@@ -76,6 +84,7 @@ export default function App() {
         <TotalScoreDisplay scores={scores} onSubmit={handleSubmit} />
       </div>
       <div className="score-chart">
+        <ScoreChartTitle coin={coin} currentMonth={currentMonth} />
         <ScoreChart data={chartData} />
       </div>
     </div>

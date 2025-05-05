@@ -3,7 +3,7 @@ import React from 'react';
 export default function CoinSelector({coin, setCoin}) {
     return (
         <div className="coin-selector">
-            <label>Select Coin</label>
+            <label>Select Asset</label>
             <select 
             value={coin} 
             onChange={e => setCoin(e.target.value)}>

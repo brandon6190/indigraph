@@ -24,7 +24,7 @@ export default function ScoreChart({ data }) {
   }
 
   const chartData = {
-    labels: sortedData.map(entry => entry.date),
+    labels: sortedData.map(entry => entry.date.split('/')[1]), // only rendering the day
     datasets: [
       {
         label: 'Total Score',
@@ -69,12 +69,7 @@ export default function ScoreChart({ data }) {
       x: {
         grid: {
             drawBorder: false
-        },
-        ticks: {
-          callback: function(val, index, ticks) {
-            return index % 2 === 0 ? this.getLabelForValue(val) : '';
-          }
-        }
+        }        
       }
     },
     plugins: {
