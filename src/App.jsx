@@ -35,6 +35,8 @@ export default function App() {
     const parts = selectedDate.split('-');
     const formattedDate = parts.length > 1 ? `${parts[1]}/${parts[2]}/${parts[0]}` : selectedDate;
     const monthKey = `${parts[1]}-${parts[0]}`;
+
+    setCurrentMonth(monthKey);
     
     setChartData(() => {
       const stored = JSON.parse(localStorage.getItem('chartData')) || {};
