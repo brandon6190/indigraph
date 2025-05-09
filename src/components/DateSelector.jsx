@@ -15,8 +15,10 @@ export default function DateSelector({selectedDate, setSelectedDate, currentMont
             type="date" 
             value={selectedDate} 
             onChange={e => setSelectedDate(e.target.value)} />
-            <button onClick={() => changeMonth(-1)}>Prev</button>
-            <button onClick={() => changeMonth(1)}>Next</button>
+            <div className="month-nav">
+                <button className="month-btn" onClick={() => changeMonth(-1)}>Prev</button>
+                <button className="month-btn" onClick={() => changeMonth(1)}>Next</button>
+            </div>
         </div>
     );
 }
