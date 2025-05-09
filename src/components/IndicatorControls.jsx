@@ -2,9 +2,9 @@ import React from 'react';
 
 export default function IndicatorControls({ indicators, scores, onScoreChange }) {
   return (
-    <div className="indicator-list">
+    <div className="indicator-controls">
       {indicators.map(ind => (
-        <div key={ind} className="indicator">
+        <div key={ind} className="indicator-list">
           <span className="indicator-name">{ind}</span>
           <div className="indicator-btns">
             <button 
