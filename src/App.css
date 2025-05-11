@@ -16,16 +16,16 @@
     background-color: #f9f9f9;
 }
 
-/* Date & Coin Selector Layout */
+/* Date & Asset Selector Layout */
 .date-selector,
-.coin-selector {
+.asset-selector {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
 .date-selector input,
-.coin-selector select {
+.asset-selector select {
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: 1px solid #ccc;
@@ -53,6 +53,64 @@
 .month-btn:hover {
   background-color: #1976D2;
 }
+
+/* Asset Selector */
+.asset-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+  
+.asset-selector select {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+  
+  /* Asset Add Input + Button */
+.asset-add {
+    display: flex;
+    gap: 0.5rem;
+}
+  
+.asset-add input {
+    flex: 1;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+  
+.asset-add button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+  
+.asset-add button:hover {
+    background-color: #1976D2;
+}
+  
+  /* Asset Remove Button */
+.asset-remove-btn {
+    background-color: #888;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+}
+  
+.asset-remove-btn:hover {
+    background-color: #656565;
+}
+  
 
 /* Indicator Controls */
 .controls {
@@ -147,7 +205,6 @@
 .indicator-add {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 1rem;
 }
 
 .indicator-add input {
@@ -234,7 +291,7 @@
     margin-bottom: 1rem;
     text-align: center;
     color: #111;
-  }
+}
 
 .chart {
     width: 100%;
@@ -261,4 +318,3 @@
         margin-top: 1rem;
     }
 }
-  
