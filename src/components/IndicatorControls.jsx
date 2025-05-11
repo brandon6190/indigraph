@@ -10,6 +10,7 @@ export default function IndicatorControls({ indicators, scores, onScoreChange, o
   
   return (
     <div className="indicator-controls">
+      <label>Indicators:</label>
       <div className="indicator-add">
         <input 
           type="text" 

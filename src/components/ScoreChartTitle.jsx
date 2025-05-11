@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function scoreChartTitle({coin, currentMonth}) {
+export default function scoreChartTitle({asset, currentMonth}) {
     const months = {
         '01': 'JAN',
         '02': 'FEB',
@@ -18,5 +18,5 @@ export default function scoreChartTitle({coin, currentMonth}) {
 
     const [month, year] = currentMonth.split('-');
 
-    return <h2 className="score-chart-title">{coin} - {months[month]} {year}</h2>;
+    return <h2 className="score-chart-title">{asset} - {months[month]} {year}</h2>;
 }
