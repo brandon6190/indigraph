@@ -8,7 +8,7 @@ import CoinSelector from './components/CoinSelector';
 import ScoreChart from './components/ScoreChart';
 import ScoreChartTitle from './components/ScoreChartTitle';
 
-const INDICATORS = ['Aroon', 'DMI', 'MACD', 'Parabolic SAR', 'RSI', 'SMI Ergodic', 'Supertrend'];
+const DEFAULT_INDICATORS = ['Aroon', 'DMI', 'MACD', 'Parabolic SAR', 'RSI', 'SMI Ergodic', 'Supertrend'];
 
 export default function App() {
   const [scores, setScores] = useState({});
@@ -16,10 +16,31 @@ export default function App() {
   const [coin, setCoin] = useState('BTC');
   const [chartData, setChartData] = useState([]);
 
+  const [indicators, setIndicators] = useState(() => {
+    const saved = JSON.parse(localStorage.getItem('indicators'));
+    return saved?.length ? saved : DEFAULT_INDICATORS;
+  });
+  
   const [currentMonth, setCurrentMonth] = useState(() => {
     const now = new Date();
     return `${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}`;
   });
+
+  const addIndicator = (name) => {
+    const trimmed = name.trim();
+    if (trimmed && !indicators.includes(trimmed)) {
+      setIndicators(prev => [...prev, trimmed]);
+    }
+  };
+  
+  const removeIndicator = (name) => {
+    setIndicators(prev => prev.filter(ind => ind !== name));
+    setScores(prev => {
+      const newScores = { ...prev };
+      delete newScores[name];
+      return newScores;
+    });
+  };  
 
   const handleScoreChange = (indicator, value) => {
     setScores(prev => ({ ...prev, [indicator]: value }));
@@ -68,6 +89,10 @@ export default function App() {
     setChartData(coinData[currentMonth] || []);
   }, [coin, currentMonth]);
 
+  useEffect(() => {
+    localStorage.setItem('indicators', JSON.stringify(indicators));
+  }, [indicators]);  
+
   return (
     <div className="app">
       <div className="controls">
@@ -80,9 +105,11 @@ export default function App() {
         coin={coin}
         setCoin={setCoin} />
         <IndicatorControls 
-          indicators={INDICATORS} 
+          indicators={indicators} 
           scores={scores} 
-          onScoreChange={handleScoreChange} />
+          onScoreChange={handleScoreChange}
+          onAddIndicator={addIndicator}
+          onRemoveIndicator={removeIndicator} />
         <TotalScoreDisplay scores={scores} onSubmit={handleSubmit} />
       </div>
       <div className="score-chart">
