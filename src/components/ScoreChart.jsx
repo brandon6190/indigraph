@@ -74,7 +74,7 @@ export default function ScoreChart({ data }) {
     },
     plugins: {
         legend: { display: false },
-        tooltip: { enabled: false }
+        tooltip: { enabled: true }
     }
   };
 
