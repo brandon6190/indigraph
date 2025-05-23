@@ -109,6 +109,21 @@ export default function App() {
     setScores({});
   };
 
+  const clearChartForCurrentMonth = () => {
+    const confirmDelete = window.confirm(`Are you sure you want to clear all chart data for ${asset} - ${currentMonth}?`);
+    if (!confirmDelete) return;
+
+    const stored = JSON.parse(localStorage.getItem('chartData')) || {};
+    const assetData = stored[asset] || {};
+
+    delete assetData[currentMonth];
+
+    stored[asset] = assetData;
+    localStorage.setItem('chartData', JSON.stringify(stored));
+    setChartData([]);
+  };
+
+
   // Sync chartData on asset/month change
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('chartData')) || {};
@@ -152,6 +167,11 @@ export default function App() {
         <TotalScoreDisplay scores={scores} onSubmit={handleSubmit} />
       </div>
       <div className="score-chart">
+        <button
+          className="clear-chart-btn"
+          onClick={clearChartForCurrentMonth}
+          title={`Clear ${asset} - ${currentMonth}`}
+        >X</button>
         <ScoreChartTitle asset={asset} currentMonth={currentMonth} />
         <ScoreChart data={chartData} />
       </div>
