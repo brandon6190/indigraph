@@ -39,6 +39,9 @@ export default function App() {
   };
 
   const removeIndicator = (name) => {
+    const confirmDelete = window.confirm(`Are you sure you want to remove this indicator?`);
+    if (!confirmDelete) return;
+
     setIndicators(prev => prev.filter(ind => ind !== name));
     setScores(prev => {
       const newScores = { ...prev };
@@ -55,6 +58,9 @@ export default function App() {
   };
 
   const removeAsset = () => {
+    const confirmDelete = window.confirm(`Are you sure you want to remove ${asset}?`);
+    if (!confirmDelete) return;
+
     if (assets.length <= 1) {
       alert("At least one asset must remain.");
       return;
