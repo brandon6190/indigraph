@@ -5,6 +5,7 @@ import IndicatorControls from './components/IndicatorControls';
 import TotalScoreDisplay from './components/TotalScoreDisplay';
 import DateSelector from './components/DateSelector';
 import AssetSelector from './components/AssetSelector';
+import CompareAssetSelector from './components/CompareAssetSelector';
 import ScoreChart from './components/ScoreChart';
 import ScoreChartTitle from './components/ScoreChartTitle';
 
@@ -18,6 +19,7 @@ export default function App() {
     const saved = JSON.parse(localStorage.getItem('assets'));
     return saved?.length ? saved : ['BTC', 'ETH', 'SOL', 'XRP'];
   });
+  const [compareAssets, setCompareAssets] = useState([]);
 
   const [chartData, setChartData] = useState([]);
 
@@ -132,10 +134,23 @@ export default function App() {
 
   // Sync chartData on asset/month change
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('chartData')) || {};
-    const assetData = stored[asset] || {};
-    setChartData(assetData[currentMonth] || []);
-  }, [asset, currentMonth]);
+  const stored = JSON.parse(localStorage.getItem('chartData')) || {};
+
+  // Always include primary asset
+  const allAssetsToShow = [asset, ...compareAssets];
+  const mergedData = [];
+
+  allAssetsToShow.forEach((a) => {
+    const assetData = stored[a]?.[currentMonth] || [];
+    // Attach asset name so the chart can use it in the legend
+    assetData.forEach(entry => {
+      mergedData.push({ ...entry, asset: a });
+    });
+  });
+
+  setChartData(mergedData);
+}, [asset, compareAssets, currentMonth]);
+
 
   // Save indicators to localStorage
   useEffect(() => {
@@ -156,13 +171,21 @@ export default function App() {
           currentMonth={currentMonth}
           setCurrentMonth={setCurrentMonth}
         />
-        <AssetSelector
-          asset={asset}
-          setAsset={setAsset}
-          assets={assets}
-          addAsset={addAsset}
-          removeAsset={removeAsset}
-        />
+        <div className="selector-group">
+          <AssetSelector
+            asset={asset}
+            setAsset={setAsset}
+            assets={assets}
+            addAsset={addAsset}
+            removeAsset={removeAsset}
+          />
+          <CompareAssetSelector
+            assets={assets}
+            compareAssets={compareAssets}
+            setCompareAssets={setCompareAssets}
+            currentAsset={asset}
+          />
+        </div>
         <IndicatorControls
           indicators={indicators}
           scores={scores}
@@ -176,10 +199,11 @@ export default function App() {
         <button
           className="clear-chart-btn"
           onClick={clearChartForCurrentMonth}
-          title={`Clear ${asset} - ${currentMonth}`}
-        >X</button>
+          title={`Clear ${asset} - ${currentMonth}`}>
+          X
+        </button>
         <ScoreChartTitle asset={asset} currentMonth={currentMonth} />
-        <ScoreChart data={chartData} />
+        <ScoreChart data={chartData} compareAssets={compareAssets} currentMonth={currentMonth} />
       </div>
     </div>
   );

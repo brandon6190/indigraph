@@ -94,8 +94,16 @@
 .asset-add button:hover {
     background-color: #1976D2;
 }
-  
-  /* Asset Remove Button */
+
+/* Selectors */
+.selector-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+/* Asset Remove Button */
 .asset-remove-btn {
     background-color: #888;
     color: white;
@@ -111,6 +119,60 @@
     background-color: #656565;
 }
   
+/* Compare Asset Selector */
+.compare-selector {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.compare-toggle-btn {
+  padding: 0.5rem 1rem;
+  background-color: #2196F3; /* Green */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.compare-toggle-btn:hover {
+  background-color: #1976D2;
+}
+
+.compare-dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  z-index: 10;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.compare-dropdown label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.compare-dropdown input[type="checkbox"] {
+  accent-color: #4CAF50;
+}
+
 
 /* Indicator Controls */
 .controls {
@@ -309,7 +371,7 @@
   left: 1rem;
   margin-top: 0.5rem;
   margin-left: 0.5rem;
-  background-color: #e53935;
+  background-color: #888;
   color: white;
   border: none;
   font-size: 1rem;
@@ -325,7 +387,7 @@
 }
 
 .clear-chart-btn:hover {
-  background-color: #c62828;
+  background-color: #656565;
 }
 
 /* Responsiveness */
